@@ -1,0 +1,23 @@
+{{- define "common.service" -}}
+{{- if .service.deploy -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .service.serviceName | quote }}
+  labels:
+    app: {{ .service.serviceName | quote }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: {{ .service.servicePort | quote}}
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+    - name: serviceport
+      port: {{ .service.servicePort }}
+      targetPort: {{ .service.servicePort }}
+      protocol: TCP
+  selector:
+    app: {{ .service.serviceName | quote }}
+{{- end -}}
+{{- end -}}

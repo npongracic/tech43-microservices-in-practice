@@ -1,6 +1,14 @@
+using Microsoft.AspNetCore.OpenApi;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
+app.MapGet("/", () => "Hello World: notification!").WithName("Hello World").WithOpenApi();
 
 app.Run();

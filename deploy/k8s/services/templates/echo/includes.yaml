@@ -1,0 +1,2 @@
+---
+{{ include "common.ingress" (dict "service" .Values.services.echo "context" .Values "release" .Release ) }}

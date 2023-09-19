@@ -11,4 +11,6 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 ENV ENV_APP_NAME=$APP_NAME
 
+EXPOSE 80
+
 ENTRYPOINT ["sh", "-c", "dotnet ${ENV_APP_NAME}.dll"]

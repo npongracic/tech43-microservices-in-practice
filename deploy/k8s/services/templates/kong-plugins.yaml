@@ -1,0 +1,9 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: strip-path-rt
+config:
+  replace:
+    uri: "/$(uri_captures[1])"
+plugin: request-transformer
+---

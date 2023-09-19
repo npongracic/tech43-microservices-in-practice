@@ -1,0 +1,58 @@
+{{- define "common.deployment" -}}
+{{- if .service.deploy -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .service.serviceName | quote }}
+  name: {{ .service.serviceName | quote }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 8
+  selector:
+    matchLabels:
+      app: {{ .service.serviceName | quote }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+  progressDeadlineSeconds: 10
+  template:
+    metadata:
+      labels:
+        app: {{ .service.serviceName | quote }}
+      annotations:
+        redeploytrigger: ""
+    spec:
+      containers:
+        - name: {{ printf "%s-app" .service.serviceName | quote }}
+          image: {{ printf "%s/%s/%s:%s" .context.Values.containerRepository.serverAddress (.service.serviceImageGroup | default .context.Values.containerRepository.group) .service.serviceImage .service.serviceImageVersion | quote }}
+          imagePullPolicy: IfNotPresent
+          env:
+            {{- if .context.Values.serviceLogging }}
+            - name: Logging__LogLevel__Default
+              value: {{ .context.Values.serviceLogging | quote }}
+            {{- end }}
+            - name: ASPNETCORE_URLS
+              value: {{ printf "http://*:%v" .service.servicePort | quote }}
+            {{- if .service.extraEnvVars }}
+                {{ range .service.extraEnvVars }}
+                    -name: {{ .name | quote }}
+                     value: {{ .value | quote }}
+                {{ end }}
+            {{- end }}
+          ports:
+            - name: serviceport
+              containerPort: {{ .service.servicePort }}
+              protocol: TCP
+          resources:
+            limits:
+              cpu: {{ .service.resources.limit.cpu | quote }}
+              memory: {{ .service.resources.limit.memory | quote }}
+            requests:
+              cpu: {{ .service.resources.requests.cpu | quote }}
+              memory: {{ .service.resources.requests.memory | quote }}
+
+{{- end -}}
+{{- end -}}

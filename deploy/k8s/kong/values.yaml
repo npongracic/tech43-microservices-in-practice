@@ -1,0 +1,4 @@
+ingressController:
+ env:
+   controller_log_level: "debug"
+   dump_sensitive_config: "true"

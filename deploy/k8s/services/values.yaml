@@ -1,0 +1,70 @@
+# Helm Charts Config
+
+containerRepository:
+  serverAddress: "localhost:5000"
+  group: "service"
+
+serviceLogging: Debug
+
+mailhog:
+  extraEnvVars:
+    - name: MH_UI_WEB_PATH
+      value: "mailhog"
+
+services:
+
+  chat:
+    deploy: true    
+    serviceName: "chat"
+    serviceImage: "chat"
+    serviceImageVersion: "latest"
+    servicePath: "chat"
+    servicePort: 80
+    resources:
+      limit:
+        cpu: 200m
+        memory: 1024Mi
+      requests:
+        cpu: 30m
+        memory: 100Mi
+
+  notification:
+    deploy: true    
+    serviceName: "notification"
+    serviceImage: "notification"
+    serviceImageVersion: "latest"
+    servicePath: "notification"
+    servicePort: 80
+    resources:
+      limit:
+        cpu: 100m
+        memory: 1024Mi
+      requests:
+        cpu: 30m
+        memory: 100Mi
+
+  mailhog:
+    deploy: true    
+    serviceName: "mailhog"
+    servicePort: 8025
+
+  echo:
+    deploy: true
+    serviceName: "tech43-echo-server"
+    servicePort: 80
+    servicePath: "echo"
+
+  checkout:
+    deploy: true    
+    serviceName: "checkout"
+    serviceImage: "checkout"
+    serviceImageVersion: "latest"
+    servicePath: "checkout"
+    servicePort: 80
+    resources:
+      limit:
+        cpu: 100m
+        memory: 1024Mi
+      requests:
+        cpu: 30m
+        memory: 100Mi

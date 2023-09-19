@@ -1,0 +1,29 @@
+{{- define "common.ingress" -}}
+{{- if .service.deploy -}}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .service.serviceName | quote }}
+  labels:
+    app: {{ .service.serviceName | quote }}
+  annotations:
+    konghq.com/plugins: strip-path-rt
+    konghq.com/connect-timeout: "180000"
+    konghq.com/read-timeout: "180000"
+    konghq.com/write-timeout: "180000"
+    konghq.com/regex-priority: "10"
+spec:
+  ingressClassName: kong
+  rules:
+    - http:
+        paths:
+          - path: {{ printf "/~/%s(.*)" .service.servicePath | quote }}
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .service.serviceName | quote }}
+                port:
+                  number: {{ .service.servicePort }}
+{{- end -}}
+{{- end -}}

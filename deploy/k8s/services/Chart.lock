@@ -1,0 +1,9 @@
+dependencies:
+- name: mailhog
+  repository: https://codecentric.github.io/helm-charts
+  version: 5.2.3
+- name: echo-server
+  repository: https://ealenn.github.io/charts
+  version: 0.5.0
+digest: sha256:516d2f8912a80c3f464f9841f880a1fa7cb432495821633ca16f23a3e5af58e5
+generated: "2023-09-19T00:16:38.558733+02:00"

@@ -1,0 +1,5 @@
+{{ include "common.service" (dict "service" .Values.services.notification "context" .Values "release" .Release ) }}
+---
+{{ include "common.deployment" (dict "service" .Values.services.notification "context" $ "release" .Release ) }}
+---
+{{ include "common.ingress" (dict "service" .Values.services.notification "context" .Values "release" .Release ) }}

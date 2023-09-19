@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export CURRENT_VERSION="1.0.4"
+export CURRENT_VERSION="1.0.9"
 export CONTAINER_REGISTRY="localhost:5000"
 export CONTAINER_IMAGE_GROUP_SERVICE="service"
 export CONTAINER_IMAGE_GROUP_WEB="web"

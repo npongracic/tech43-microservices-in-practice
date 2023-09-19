@@ -13,21 +13,6 @@ mailhog:
 
 services:
 
-  chat:
-    deploy: true    
-    serviceName: "chat"
-    serviceImage: "chat"
-    serviceImageVersion: "latest"
-    servicePath: "chat"
-    servicePort: 80
-    resources:
-      limit:
-        cpu: 200m
-        memory: 1024Mi
-      requests:
-        cpu: 30m
-        memory: 100Mi
-
   notification:
     deploy: true    
     serviceName: "notification"
@@ -68,3 +53,5 @@ services:
       requests:
         cpu: 30m
         memory: 100Mi
+
+  kafka-ui:

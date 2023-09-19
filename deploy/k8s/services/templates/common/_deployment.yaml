@@ -23,7 +23,8 @@ spec:
       labels:
         app: {{ .service.serviceName | quote }}
       annotations:
-        redeploytrigger: ""
+        dapr.io/enabled: "true"
+        dapr.io/app-id: {{ .service.serviceName | quote }}
     spec:
       containers:
         - name: {{ printf "%s-app" .service.serviceName | quote }}

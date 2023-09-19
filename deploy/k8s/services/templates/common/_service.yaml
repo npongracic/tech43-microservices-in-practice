@@ -8,7 +8,7 @@ metadata:
     app: {{ .service.serviceName | quote }}
   annotations:
     prometheus.io/scrape: "true"
-    prometheus.io/port: {{ .service.servicePort | quote}}
+    prometheus.io/port: {{ .service.servicePort | quote }}
 spec:
   type: ClusterIP
   sessionAffinity: None

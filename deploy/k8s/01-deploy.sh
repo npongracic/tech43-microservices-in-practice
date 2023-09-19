@@ -2,6 +2,7 @@
 helm repo add kong https://charts.konghq.com
 helm repo add dapr https://dapr.github.io/helm-charts/
 helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add kafka-ui https://provectus.github.io/kafka-ui-charts
 helm repo update
 
 helm dependency update services/
@@ -16,11 +17,17 @@ helm upgrade --install dapr dapr/dapr \
 --create-namespace \
 --wait
 
+helm install dapr-dashboard dapr/dapr-dashboard --namespace dapr-system
+
 helm install redis bitnami/redis --set image.tag=6.2 --set architecture=standalone
 
-export SERVICE_VERSION="1.0.4"
+helm install kafka oci://registry-1.docker.io/bitnamicharts/kafka
+echo "Installing Kafka UI"
+helm install kafka-ui kafka-ui/kafka-ui --version 0.7.5 -f ./kafka-ui/values.yaml
 
-helm upgrade --install tech43 services/  --wait --timeout 2m0s \
+export SERVICE_VERSION="1.0.9"
+
+helm upgrade --install tech43 services/ -n tech43 --create-namespace --wait --timeout 2m0s \
     --set services.chat.serviceImageVersion="$SERVICE_VERSION" \
     --set services.notification.serviceImageVersion="$SERVICE_VERSION" \
     --set services.checkout.serviceImageVersion="$SERVICE_VERSION" \
